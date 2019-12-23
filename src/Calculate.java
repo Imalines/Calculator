@@ -2,43 +2,46 @@ import java.awt.event.*;
 import javax.swing.*;
 
 
-public class Calculate extends JFrame{ //Наследуя от JFrame мы получаем всю функциональность окна
+public class Calculate extends JFrame{ //РќР°СЃР»РµРґСѓСЏ РѕС‚ JFrame РјС‹ РїРѕР»СѓС‡Р°РµРј РІСЃСЋ С„СѓРЅРєС†РёРѕРЅР°Р»СЊРЅРѕСЃС‚СЊ РѕРєРЅР°
 	private static final long serialVersionUID = 1L;
 	
-	//Проверка на присутствие запятых в полях ввода
-	boolean comma(int id) {//Цикл в цикле
-		//Происходит полный перебор символов
-		String text = textbox_collection[id].getText();
-		for (char c: text.toCharArray()) {
-			if (c == '.') {
-				return true;
+	//РџСЂРѕРІРµСЂРєР° РЅР° РїСЂРёСЃСѓС‚СЃС‚РІРёРµ Р·Р°РїСЏС‚С‹С… РІ РїРѕР»СЏС… РІРІРѕРґР°
+	boolean comma(int id) {//Р¦РёРєР» РІ С†РёРєР»Рµ
+		//РџСЂРѕРёСЃС…РѕРґРёС‚ РїРѕР»РЅС‹Р№ РїРµСЂРµР±РѕСЂ СЃРёРјРІРѕР»РѕРІ
+		for (int i = 0; i < len-1; i++) {
+			String text = textbox_collection[i].getText();
+			for (char c: text.toCharArray()) {
+				if (c == '.') {
+					return true;
+				}
 			}
-		}	
+			
+		}
 		return false;
 	}
-	//Ограничение ввода
-	KeyListener getInputListener(int id) {//id - номер текстового поля (для ограничения)
+	//РћРіСЂР°РЅРёС‡РµРЅРёРµ РІРІРѕРґР°
+	KeyListener getInputListener(int id) {//id - РЅРѕРјРµСЂ С‚РµРєСЃС‚РѕРІРѕРіРѕ РїРѕР»СЏ (РґР»СЏ РѕРіСЂР°РЅРёС‡РµРЅРёСЏ)
 		return new KeyListener() {
 			public void keyTyped(KeyEvent e) {}
 			public void keyPressed(KeyEvent e) {
 				
-				int keyc = e.getKeyCode();//номер кнопки
-				String text = textbox_collection[id].getText();//Получение текста из поля
+				int keyc = e.getKeyCode();//РЅРѕРјРµСЂ РєРЅРѕРїРєРё
+				String text = textbox_collection[id].getText();//РџРѕР»СѓС‡РµРЅРёРµ С‚РµРєСЃС‚Р° РёР· РїРѕР»СЏ
 				if (keyc == KeyEvent.VK_BACK_SPACE) {//BackSpace
 					if (text.length()==1) {
-						textbox_collection[id].setEditable(false);//запрещается ввод символов в определённое поле ввода
-						textbox_collection[id].setText("0");//"Закидывает" ноль
+						textbox_collection[id].setEditable(false);//Р·Р°РїСЂРµС‰Р°РµС‚СЃСЏ РІРІРѕРґ СЃРёРјРІРѕР»РѕРІ РІ РѕРїСЂРµРґРµР»С‘РЅРЅРѕРµ РїРѕР»Рµ РІРІРѕРґР°
+						textbox_collection[id].setText("0");//"Р—Р°РєРёРґС‹РІР°РµС‚" РЅРѕР»СЊ
 					}
 				}
-				else {//Другие кнопки
+				else {//Р”СЂСѓРіРёРµ РєРЅРѕРїРєРё
 					char key = e.getKeyChar();
-					if (Character.isDigit(key)) {//проверка на цифры
+					if (Character.isDigit(key)) {//РїСЂРѕРІРµСЂРєР° РЅР° С†РёС„СЂС‹
 						if (text.compareTo("0") == 0) {
 							textbox_collection[id].setText("");
 						}
 					}
-					else {//Не цифры
-						if ((key == ',' || key == '.') && !comma(id)) {//Запятая или точка
+					else {//РќРµ С†РёС„СЂС‹
+						if ((key == ',' || key == '.') && !comma(id)) {//Р—Р°РїСЏС‚Р°СЏ РёР»Рё С‚РѕС‡РєР°
 							textbox_collection[id].setEditable(false);
 							if (text.compareTo("0") == 0 || text.isEmpty()) {
 								textbox_collection[id].setText("0.");
@@ -48,7 +51,7 @@ public class Calculate extends JFrame{ //Наследуя от JFrame мы получаем всю функ
 								textbox_collection[id].setText(text);
 							}
 						}
-						else {//Остальные кнопки
+						else {//РћСЃС‚Р°Р»СЊРЅС‹Рµ РєРЅРѕРїРєРё
 							textbox_collection[id].setEditable(false);
 						}
 					}
@@ -59,24 +62,24 @@ public class Calculate extends JFrame{ //Наследуя от JFrame мы получаем всю функ
 			}
 		};
 	}
-	String[] textLabel1 = {"Вода","Электричество",""};
-	String[] textLabel2 = {"Холодная","Горячая","Ночь","День","Газ","Площадь квартиры"};
-	JTextField[] textbox_collection = {//Текстовые поля
-			new JTextField("0"),//холодная вода
-			new JTextField("0"),//горячая
-			new JTextField("0"),//электричество день
-			new JTextField("0"),//ночь
-			new JTextField("0"),//газ
-			new JTextField("0"),//пллощадь
-			new JTextField("0"),//люди
+	String[] textLabel1 = {"Р’РѕРґР°","Р­Р»РµРєС‚СЂРёС‡РµСЃС‚РІРѕ",""};
+	String[] textLabel2 = {"РҐРѕР»РѕРґРЅР°СЏ","Р“РѕСЂСЏС‡Р°СЏ","РќРѕС‡СЊ","Р”РµРЅСЊ","Р“Р°Р·","РџР»РѕС‰Р°РґСЊ РєРІР°СЂС‚РёСЂС‹"};
+	JTextField[] textbox_collection = {//РўРµРєСЃС‚РѕРІС‹Рµ РїРѕР»СЏ
+			new JTextField("0"),//С…РѕР»РѕРґРЅР°СЏ РІРѕРґР°
+			new JTextField("0"),//РіРѕСЂСЏС‡Р°СЏ
+			new JTextField("0"),//СЌР»РµРєС‚СЂРёС‡РµСЃС‚РІРѕ РґРµРЅСЊ
+			new JTextField("0"),//РЅРѕС‡СЊ
+			new JTextField("0"),//РіР°Р·
+			new JTextField("0"),//РїР»Р»РѕС‰Р°РґСЊ
+			new JTextField("0"),//Р»СЋРґРё
 			new JTextField("0"),//Result
 	};
-	int len = textbox_collection.length;//количество
+	int len = textbox_collection.length;//РєРѕР»РёС‡РµСЃС‚РІРѕ
 	
-	JButton clean = new JButton("Отчистить");//Кнопка для отчистки полей вводы и поля вывода
-	JButton result = new JButton("Расчёт");//Кнопка расчёта 
-	JPanel panel = new JPanel();//Панель
-	//Расчёт (Бессмысленные вычисления)
+	JButton clean = new JButton("РћС‚С‡РёСЃС‚РёС‚СЊ");//РљРЅРѕРїРєР° РґР»СЏ РѕС‚С‡РёСЃС‚РєРё РїРѕР»РµР№ РІРІРѕРґС‹ Рё РїРѕР»СЏ РІС‹РІРѕРґР°
+	JButton result = new JButton("Р Р°СЃС‡С‘С‚");//РљРЅРѕРїРєР° СЂР°СЃС‡С‘С‚Р° 
+	JPanel panel = new JPanel();//РџР°РЅРµР»СЊ
+	//Р Р°СЃС‡С‘С‚ (Р‘РµСЃСЃРјС‹СЃР»РµРЅРЅС‹Рµ РІС‹С‡РёСЃР»РµРЅРёСЏ)
 	void get_result() {
 		double[] data = new double[len];
 		int counter = 0;
@@ -90,102 +93,102 @@ public class Calculate extends JFrame{ //Наследуя от JFrame мы получаем всю функ
 		if (counter == len2) {
 			textbox_collection[len2].setText("0");
 			return;
-		}//Умножение значения на записанное в поле ввода
-		data[0] *= 30.5;//Холодная вода
-		data[1] *= 50.3;//Горячая вода
-		data[2] *= 10.9;//Электричесво днём
-		data[3] *= 4.1;//Электричесво ночью
-		data[4] *= 2.7;//Газ
-		data[5] *= 10;//Площадь дома/квартиры
+		}//РЈРјРЅРѕР¶РµРЅРёРµ Р·РЅР°С‡РµРЅРёСЏ РЅР° Р·Р°РїРёСЃР°РЅРЅРѕРµ РІ РїРѕР»Рµ РІРІРѕРґР°
+		data[0] *= 30.5;//РҐРѕР»РѕРґРЅР°СЏ РІРѕРґР°
+		data[1] *= 50.3;//Р“РѕСЂСЏС‡Р°СЏ РІРѕРґР°
+		data[2] *= 10.9;//Р­Р»РµРєС‚СЂРёС‡РµСЃРІРѕ РґРЅС‘Рј
+		data[3] *= 4.1;//Р­Р»РµРєС‚СЂРёС‡РµСЃРІРѕ РЅРѕС‡СЊСЋ
+		data[4] *= 2.7;//Р“Р°Р·
+		data[5] *= 10;//РџР»РѕС‰Р°РґСЊ РґРѕРјР°/РєРІР°СЂС‚РёСЂС‹
 		
 		double result =  0.0;
 		for (int i = 0; i < len2; i++) {
 			result += data[i];
 		}
-		result += ((data[6]*70)-data[6]);//Число прописанныз в квартире
-		result += (220);//Независимо какие значения буду в полях ввода к ним прибавляется 220,
-												   // 100 за Кап.ремонт и 120 за уборку мусора, 
-		textbox_collection[len2].setText(String.format("%.2f", result));//Текстовая строка, куда вывыдится результат
+		result += ((data[6]*70)-data[6]);//Р§РёСЃР»Рѕ РїСЂРѕРїРёСЃР°РЅРЅС‹Р· РІ РєРІР°СЂС‚РёСЂРµ
+		result += (220);//РќРµР·Р°РІРёСЃРёРјРѕ РєР°РєРёРµ Р·РЅР°С‡РµРЅРёСЏ Р±СѓРґСѓ РІ РїРѕР»СЏС… РІРІРѕРґР° Рє РЅРёРј РїСЂРёР±Р°РІР»СЏРµС‚СЃСЏ 220,
+												   // 100 Р·Р° РљР°Рї.СЂРµРјРѕРЅС‚ Рё 120 Р·Р° СѓР±РѕСЂРєСѓ РјСѓСЃРѕСЂР°, 
+		textbox_collection[len2].setText(String.format("%.2f", result));//РўРµРєСЃС‚РѕРІР°СЏ СЃС‚СЂРѕРєР°, РєСѓРґР° РІС‹РІС‹РґРёС‚СЃСЏ СЂРµР·СѓР»СЊС‚Р°С‚
 	}
 	
-	int dx = 120;//Ширина объектов
-	int dy = 30;//Высота объектов
+	int dx = 120;//РЁРёСЂРёРЅР° РѕР±СЉРµРєС‚РѕРІ
+	int dy = 30;//Р’С‹СЃРѕС‚Р° РѕР±СЉРµРєС‚РѕРІ
 	
-	int x = 20;//Левая граница интерфейса
-	int y = 30;//Верхняя граница интерфейса
+	int x = 20;//Р›РµРІР°СЏ РіСЂР°РЅРёС†Р° РёРЅС‚РµСЂС„РµР№СЃР°
+	int y = 30;//Р’РµСЂС…РЅСЏСЏ РіСЂР°РЅРёС†Р° РёРЅС‚РµСЂС„РµР№СЃР°
 	
 	Calculate(){
-		super("Калькулятор");//Загаловок 
+		super("РљР°Р»СЊРєСѓР»СЏС‚РѕСЂ");//Р—Р°РіР°Р»РѕРІРѕРє 
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		panel.setLayout(null);
 		
-		//строительство интерфейса
+		//СЃС‚СЂРѕРёС‚РµР»СЊСЃС‚РІРѕ РёРЅС‚РµСЂС„РµР№СЃР°
 		for (int i = 0; i < 3; i++) {
 			JLabel label = new JLabel(textLabel1[i]);
-			label.setSize(100, 15);//Ширина и высота объекта
-			label.setLocation(x, y);//Граници объекта
-			panel.add(label);//Добавляем на панель (импорт в интрерфейс)
-			y += 20;//Увеличиваем на 20, дабы избежать создание следующего объекта на предидущем
+			label.setSize(100, 15);//РЁРёСЂРёРЅР° Рё РІС‹СЃРѕС‚Р° РѕР±СЉРµРєС‚Р°
+			label.setLocation(x, y);//Р“СЂР°РЅРёС†Рё РѕР±СЉРµРєС‚Р°
+			panel.add(label);//Р”РѕР±Р°РІР»СЏРµРј РЅР° РїР°РЅРµР»СЊ (РёРјРїРѕСЂС‚ РІ РёРЅС‚СЂРµСЂС„РµР№СЃ)
+			y += 20;//РЈРІРµР»РёС‡РёРІР°РµРј РЅР° 20, РґР°Р±С‹ РёР·Р±РµР¶Р°С‚СЊ СЃРѕР·РґР°РЅРёРµ СЃР»РµРґСѓСЋС‰РµРіРѕ РѕР±СЉРµРєС‚Р° РЅР° РїСЂРµРґРёРґСѓС‰РµРј
 			
 			for (int j = 0; j < 2; j++) {
 				int id = 2*i+j;
 				JLabel label1 = new JLabel(textLabel2[id]);
-				label1.setSize(dx, 15);//Ширина и высота объекта
-				label1.setLocation(x, y);//Граници объекта
+				label1.setSize(dx, 15);//РЁРёСЂРёРЅР° Рё РІС‹СЃРѕС‚Р° РѕР±СЉРµРєС‚Р°
+				label1.setLocation(x, y);//Р“СЂР°РЅРёС†Рё РѕР±СЉРµРєС‚Р°
 				panel.add(label1);
 				
-				//Задаются параметры объекта
-				textbox_collection[id].setSize(dx, dy);//Ширина и высота объекта
-				textbox_collection[id].setLocation(x, y + 20);//Граници объекта
-				textbox_collection[id].setHorizontalAlignment(JTextField.RIGHT);//Задаем ориентацию действий от правого края объекта
-				textbox_collection[id].addKeyListener(getInputListener(id));//Добавляем свойство чтения c клавиатуры
-				panel.add(textbox_collection[id]);//Добавлеие объекта на панель (импорт в интрерфейс)
+				//Р—Р°РґР°СЋС‚СЃСЏ РїР°СЂР°РјРµС‚СЂС‹ РѕР±СЉРµРєС‚Р°
+				textbox_collection[id].setSize(dx, dy);//РЁРёСЂРёРЅР° Рё РІС‹СЃРѕС‚Р° РѕР±СЉРµРєС‚Р°
+				textbox_collection[id].setLocation(x, y + 20);//Р“СЂР°РЅРёС†Рё РѕР±СЉРµРєС‚Р°
+				textbox_collection[id].setHorizontalAlignment(JTextField.RIGHT);//Р—Р°РґР°РµРј РѕСЂРёРµРЅС‚Р°С†РёСЋ РґРµР№СЃС‚РІРёР№ РѕС‚ РїСЂР°РІРѕРіРѕ РєСЂР°СЏ РѕР±СЉРµРєС‚Р°
+				textbox_collection[id].addKeyListener(getInputListener(id));//Р”РѕР±Р°РІР»СЏРµРј СЃРІРѕР№СЃС‚РІРѕ С‡С‚РµРЅРёСЏ c РєР»Р°РІРёР°С‚СѓСЂС‹
+				panel.add(textbox_collection[id]);//Р”РѕР±Р°РІР»РµРёРµ РѕР±СЉРµРєС‚Р° РЅР° РїР°РЅРµР»СЊ (РёРјРїРѕСЂС‚ РІ РёРЅС‚СЂРµСЂС„РµР№СЃ)
 				
 				JLabel label2 = new JLabel(".");
-				label2.setSize(100, 15);//Ширина и высота объекта
-				label2.setLocation(x+2*dx+8, y+10);//Граници объекта
-				panel.add(label2);//Добавлеие объекта на панель (импорт в интрерфейс)
+				label2.setSize(100, 15);//РЁРёСЂРёРЅР° Рё РІС‹СЃРѕС‚Р° РѕР±СЉРµРєС‚Р°
+				label2.setLocation(x+2*dx+8, y+10);//Р“СЂР°РЅРёС†Рё РѕР±СЉРµРєС‚Р°
+				panel.add(label2);//Р”РѕР±Р°РІР»РµРёРµ РѕР±СЉРµРєС‚Р° РЅР° РїР°РЅРµР»СЊ (РёРјРїРѕСЂС‚ РІ РёРЅС‚СЂРµСЂС„РµР№СЃ)
 				
 				x += dx+10;
 			}
 			x = 20;
-			y += 80;//Увеличиваем значение, дабы избежать создание следующего объекта на предидущем
+			y += 80;//РЈРІРµР»РёС‡РёРІР°РµРј Р·РЅР°С‡РµРЅРёРµ, РґР°Р±С‹ РёР·Р±РµР¶Р°С‚СЊ СЃРѕР·РґР°РЅРёРµ СЃР»РµРґСѓСЋС‰РµРіРѕ РѕР±СЉРµРєС‚Р° РЅР° РїСЂРµРґРёРґСѓС‰РµРј
 		}
 		
-		JLabel label = new JLabel("Количество прописанных человек");//Текстовое поле
-		label.setSize(250, 15);//Ширина и высота объекта
-		label.setLocation(x, y);//Граници объекта
-		panel.add(label);//Добавляем объект на панель (импорт в интрерфейс)
+		JLabel label = new JLabel("РљРѕР»РёС‡РµСЃС‚РІРѕ РїСЂРѕРїРёСЃР°РЅРЅС‹С… С‡РµР»РѕРІРµРє");//РўРµРєСЃС‚РѕРІРѕРµ РїРѕР»Рµ
+		label.setSize(250, 15);//РЁРёСЂРёРЅР° Рё РІС‹СЃРѕС‚Р° РѕР±СЉРµРєС‚Р°
+		label.setLocation(x, y);//Р“СЂР°РЅРёС†Рё РѕР±СЉРµРєС‚Р°
+		panel.add(label);//Р”РѕР±Р°РІР»СЏРµРј РѕР±СЉРµРєС‚ РЅР° РїР°РЅРµР»СЊ (РёРјРїРѕСЂС‚ РІ РёРЅС‚СЂРµСЂС„РµР№СЃ)
 		
-		//Задаются параметры объекта
-		textbox_collection[6].setSize(dx, dy);//Ширина и высота объекта
-		textbox_collection[6].setLocation(x, y + 20);//Граници объекта
-		textbox_collection[6].setHorizontalAlignment(JTextField.RIGHT);//Задаем ориентацию действий от правого края объекта
-		textbox_collection[6].addKeyListener(getInputListener(6));//Добавляем свойство чтения c клавиатуры
-		panel.add(textbox_collection[6]);//Добавляем объект на панель (импорт в интрерфейс)
+		//Р—Р°РґР°СЋС‚СЃСЏ РїР°СЂР°РјРµС‚СЂС‹ РѕР±СЉРµРєС‚Р°
+		textbox_collection[6].setSize(dx, dy);//РЁРёСЂРёРЅР° Рё РІС‹СЃРѕС‚Р° РѕР±СЉРµРєС‚Р°
+		textbox_collection[6].setLocation(x, y + 20);//Р“СЂР°РЅРёС†Рё РѕР±СЉРµРєС‚Р°
+		textbox_collection[6].setHorizontalAlignment(JTextField.RIGHT);//Р—Р°РґР°РµРј РѕСЂРёРµРЅС‚Р°С†РёСЋ РґРµР№СЃС‚РІРёР№ РѕС‚ РїСЂР°РІРѕРіРѕ РєСЂР°СЏ РѕР±СЉРµРєС‚Р°
+		textbox_collection[6].addKeyListener(getInputListener(6));//Р”РѕР±Р°РІР»СЏРµРј СЃРІРѕР№СЃС‚РІРѕ С‡С‚РµРЅРёСЏ c РєР»Р°РІРёР°С‚СѓСЂС‹
+		panel.add(textbox_collection[6]);//Р”РѕР±Р°РІР»СЏРµРј РѕР±СЉРµРєС‚ РЅР° РїР°РЅРµР»СЊ (РёРјРїРѕСЂС‚ РІ РёРЅС‚СЂРµСЂС„РµР№СЃ)
 		
 		x = 20;
-		y += 80;//Увеличиваем значение, дабы избежать создание следующего объекта на предидущем
+		y += 80;//РЈРІРµР»РёС‡РёРІР°РµРј Р·РЅР°С‡РµРЅРёРµ, РґР°Р±С‹ РёР·Р±РµР¶Р°С‚СЊ СЃРѕР·РґР°РЅРёРµ СЃР»РµРґСѓСЋС‰РµРіРѕ РѕР±СЉРµРєС‚Р° РЅР° РїСЂРµРґРёРґСѓС‰РµРј
 		
-		JLabel label1 = new JLabel("Результат");
+		JLabel label1 = new JLabel("Р РµР·СѓР»СЊС‚Р°С‚");
 		label1.setSize(dx, 15);
 		label1.setLocation(x, y);
 		panel.add(label1); 
-		y += 15;//Увеличиваем значение, дабы избежать создание следующего объекта на предидущем
+		y += 15;//РЈРІРµР»РёС‡РёРІР°РµРј Р·РЅР°С‡РµРЅРёРµ, РґР°Р±С‹ РёР·Р±РµР¶Р°С‚СЊ СЃРѕР·РґР°РЅРёРµ СЃР»РµРґСѓСЋС‰РµРіРѕ РѕР±СЉРµРєС‚Р° РЅР° РїСЂРµРґРёРґСѓС‰РµРј
 		
-		//Задаются параметры объекта
-		textbox_collection[7].setEditable(false);//Запрет на воод в поле
-		textbox_collection[7].setSize(2*dx, dy);//Ширина и высота объекта
-		textbox_collection[7].setLocation(x, y);//Граници объекта
-		textbox_collection[7].setHorizontalAlignment(JTextField.RIGHT);//Задаем ориентацию действий от правого края объекта
-		panel.add(textbox_collection[7]);//Добавляем объект на панель (импорт в интрерфейс)
+		//Р—Р°РґР°СЋС‚СЃСЏ РїР°СЂР°РјРµС‚СЂС‹ РѕР±СЉРµРєС‚Р°
+		textbox_collection[7].setEditable(false);//Р—Р°РїСЂРµС‚ РЅР° РІРѕРѕРґ РІ РїРѕР»Рµ
+		textbox_collection[7].setSize(2*dx, dy);//РЁРёСЂРёРЅР° Рё РІС‹СЃРѕС‚Р° РѕР±СЉРµРєС‚Р°
+		textbox_collection[7].setLocation(x, y);//Р“СЂР°РЅРёС†Рё РѕР±СЉРµРєС‚Р°
+		textbox_collection[7].setHorizontalAlignment(JTextField.RIGHT);//Р—Р°РґР°РµРј РѕСЂРёРµРЅС‚Р°С†РёСЋ РґРµР№СЃС‚РІРёР№ РѕС‚ РїСЂР°РІРѕРіРѕ РєСЂР°СЏ РѕР±СЉРµРєС‚Р°
+		panel.add(textbox_collection[7]);//Р”РѕР±Р°РІР»СЏРµРј РѕР±СЉРµРєС‚ РЅР° РїР°РЅРµР»СЊ (РёРјРїРѕСЂС‚ РІ РёРЅС‚СЂРµСЂС„РµР№СЃ)
 		
-		JLabel label2 = new JLabel("руб.");
+		JLabel label2 = new JLabel("СЂСѓР±.");
 		label2.setSize(100, 15);
 		label2.setLocation(x+2*dx+8, y+10);
 		panel.add(label2);
 		
-		y += 40;//Увеличиваем значение, дабы избежать создание следующего объекта на предидущем
+		y += 40;//РЈРІРµР»РёС‡РёРІР°РµРј Р·РЅР°С‡РµРЅРёРµ, РґР°Р±С‹ РёР·Р±РµР¶Р°С‚СЊ СЃРѕР·РґР°РЅРёРµ СЃР»РµРґСѓСЋС‰РµРіРѕ РѕР±СЉРµРєС‚Р° РЅР° РїСЂРµРґРёРґСѓС‰РµРј
 		
 		clean.setSize(dx,dy);
 		clean.setLocation(x,y);
@@ -200,7 +203,7 @@ public class Calculate extends JFrame{ //Наследуя от JFrame мы получаем всю функ
 		);
 		x += dx;
 		panel.add(clean);
-		//Расположение и размеры поля в которое выводятся результаты
+		//Р Р°СЃРїРѕР»РѕР¶РµРЅРёРµ Рё СЂР°Р·РјРµСЂС‹ РїРѕР»СЏ РІ РєРѕС‚РѕСЂРѕРµ РІС‹РІРѕРґСЏС‚СЃСЏ СЂРµР·СѓР»СЊС‚Р°С‚С‹
 		result.setSize(dx,dy);
 		result.setLocation(x,y);
 		result.addActionListener(
@@ -212,8 +215,8 @@ public class Calculate extends JFrame{ //Наследуя от JFrame мы получаем всю функ
 		);
 		panel.add(result);
 			
-		setContentPane(panel);//Панелька
-		setSize(350, 600);//Размеры панели
+		setContentPane(panel);//РџР°РЅРµР»СЊРєР°
+		setSize(350, 600);//Р Р°Р·РјРµСЂС‹ РїР°РЅРµР»Рё
 		setVisible(true);
 	}
 	public static void main(String[] args) {
